@@ -1,3 +1,5 @@
+<img src="src/assets/TrustMarkt.png" alt="TrustMarkt Logo" width="200" style="border-radius: 10px;" />
+
 # TrustMarkt
 
 TrustMarkt is an open-source project focused on enhancing the security and reliability of online commerce by verifying sellers' identities through advanced facial recognition technology.
