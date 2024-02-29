@@ -1,29 +1,62 @@
-# Create T3 App
+<img src="src/assets/TrustMarkt.png" alt="TrustMarkt Logo" width="200" style="border-radius: 10px;" />
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+# TrustMarkt
 
-## What's next? How do I make an app with this?
+TrustMarkt is an open-source project focused on enhancing the security and reliability of online commerce by verifying sellers' identities through advanced facial recognition technology.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Features
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- **Identity Verification:** Utilize cutting-edge facial recognition to verify online sellers' identities.
+- **Secure Transactions:** Ensure secure and trustworthy online transactions for users engaged in e-commerce.
+- **Rigorous Validation:** Implement rigorous identity validation processes to enhance customer confidence.
+- **Fraud Prevention:** Safeguard against fraudulent activities and protect users from identity theft risks.
+- **Trusted Environment:** Create a secure and trusted environment for seamless and reliable e-commerce experiences.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Getting Started
 
-## Learn More
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Prerequisites
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- [Node.js](https://nodejs.org/) installed
+- [pnpm](https://pnpm.io/) package manager
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+### Installation
 
-## How do I deploy this?
+1. Clone the repository:
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+   ```bash
+   git clone https://github.com/your-username/trustmarkt.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd trustmarkt
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   pnpm install
+   ```
+
+4. Start the development server:
+
+   ```bash
+   pnpm run dev
+   ```
+
+5. Open your browser and visit [http://localhost:3000](http://localhost:3000).
+
+## Contributing
+
+We welcome contributions from the community! Feel free to open issues, submit pull requests, or provide feedback.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Acknowledgments
+
+- Thanks to [OpenAI](https://www.openai.com/) for language model support.
