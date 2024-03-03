@@ -20,6 +20,10 @@ next-env.d.ts
 # production
 /build
 
+# virtual environment
+/.venv/
+
+
 # misc
 .DS_Store
 *.pem
