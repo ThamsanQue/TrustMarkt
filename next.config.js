@@ -14,10 +14,8 @@ const config = {
         source: "/deepface/:path*",
         destination:
           env.NODE_ENV === "production"
-            ? "https://trustmarkt.online/deepface/:path*"
-            : env.NODE_ENV === "development"
-              ? "http://localhost:5134/deepface/:path*"
-              : "/deepface/:path*",
+            ? `${env.NEXTAUTH_URL}/deepface/:path*`
+            : "/deepface/:path*",
       },
     ];
   },
