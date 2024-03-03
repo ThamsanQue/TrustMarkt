@@ -1,3 +1,5 @@
+import { env } from "./src/env.js";
+
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
@@ -11,9 +13,9 @@ const config = {
       {
         source: "/deepface/:path*",
         destination:
-          process.env.NODE_ENV === "production"
-            ? `${process.env.NEXTAUTH_URL}/deepface/:path*`
-            : "/deepface/:path*",
+          env.NODE_ENV === "development"
+            ? `${env.DEEPFACE_URL}/deepface/:path*`
+            : "/deepface/",
       },
     ];
   },
