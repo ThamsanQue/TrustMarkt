@@ -13,9 +13,11 @@ const config = {
       {
         source: "/deepface/:path*",
         destination:
-          env.NODE_ENV === "development"
-            ? "http://127.0.0.1:5134/deepface/:path*"
-            : "/deepface/",
+          env.NODE_ENV === "production"
+            ? "https://trustmarkt.online/deepface/:path*"
+            : env.NODE_ENV === "development"
+              ? "http://localhost:5134/deepface/:path*"
+              : "/deepface/:path*",
       },
     ];
   },
