@@ -3,4 +3,4 @@ app = Flask(__name__)
 
 @app.route("/api/deepface")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return "<p>Hello, I recognized you!</p>"
