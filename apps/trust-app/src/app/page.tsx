@@ -5,6 +5,7 @@ import { CreatePost } from "@/app/_components/create-post";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
 import Head from "next/head";
+import Upload from "@/components/upload/upload";
 
 export default async function Home() {
   noStore();
@@ -52,6 +53,7 @@ export default async function Home() {
               </div>
             </div>
           </div>
+          <Upload/>
           <div className="flex flex-col items-center gap-2">
             <p className="text-2xl text-white">
               {hello ? hello.greeting : "Loading tRPC query..."}

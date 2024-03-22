@@ -10,6 +10,7 @@
   "devDependencies": {
     "@trustmarkt/eslint-config": "workspace:*",
     "@trustmarkt/typescript-config": "workspace:*",
+    "@trustmarkt/prettier-config": "workspace:*",
     "cz-conventional-changelog": "^3.3.0",
     "prettier": "^3.2.5",
     "turbo": "latest"
