@@ -50,22 +50,32 @@ export default function Upload() {
       ) : (
         <Drawer>
           <DrawerTrigger asChild>
-            <Button className="rounded-full shadow" variant="outline">
+            <Button
+              className="justify-center rounded-full shadow"
+              variant="outline"
+            >
               File upload
             </Button>
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
-              <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+              <DrawerTitle>Upload your files</DrawerTitle>
               <DrawerDescription>
-                This action cannot be undone.
+                Upload your identity documents here.
               </DrawerDescription>
             </DrawerHeader>
+            <div className="p-4">
+              <FileUpload />
+            </div>
             <DrawerFooter>
-              <Button>Submit</Button>
-              <DrawerClose>
-                <Button variant="outline">Cancel</Button>
-              </DrawerClose>
+              <div className="flex-col-2 flex gap-4">
+                <Button className="w-full">Submit</Button>
+                <DrawerClose className="w-full">
+                  <Button variant="outline" className="w-full">
+                    Cancel
+                  </Button>
+                </DrawerClose>
+              </div>
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
