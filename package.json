@@ -10,6 +10,7 @@
   "devDependencies": {
     "@trustmarkt/eslint-config": "workspace:*",
     "@trustmarkt/typescript-config": "workspace:*",
+    "cz-conventional-changelog": "^3.3.0",
     "prettier": "^3.2.5",
     "turbo": "latest"
   },
@@ -19,5 +20,10 @@
   "packageManager": "pnpm@8.10.2",
   "engines": {
     "node": ">=18"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
