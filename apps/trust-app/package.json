@@ -6,6 +6,8 @@
     "build": "pnpm with-env next build",
     "db:migrate": "pnpm with-env drizzle-kit generate:pg",
     "db:push": "pnpm with-env drizzle-kit push:pg",
+    "db:seed": "pnpm with-env drizzle-kit seed:pg",
+    "db:generate": "pnpm with-env drizzle-kit generate:pg",
     "db:studio": "pnpm with-env drizzle-kit studio",
     "dev": "pnpm with-env next dev",
     "lint": "eslint . --max-warnings 0",
