@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Flask",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "flask",
+      "env": {
+        "FLASK_APP": "${workspaceFolder}/apps/deep-trust-api/api/index.py",
+        "FLASK_ENV": "development"
+      },
+      "args": ["run", "--no-debugger", "--no-reload"],
+      "jinja": true
+    }
+  ]
+}
