@@ -7,7 +7,7 @@ import { passwordResetTokens } from "@/server/db/schema/password-reset-tokens";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import { getVerificationTokenByEmail } from "@/data/verification-token";
 import { getPasswordResetTokenByEmail } from "@/data/password-reset-token";
-import { verificationTokens as isinkwa } from "@/server/db/schema/verification-tokens";
+import { verificationTokens } from "@/server/db/schema/verification-tokens";
 
 export const generatePasswordResetToken = async (email: string) => {
   const token = uuidv4();
@@ -33,23 +33,28 @@ export const generatePasswordResetToken = async (email: string) => {
   return passwordResetToken[0];
 };
 
-export const generateVerificationToken = async (email: string) => {
+export const generateVerificationToken = async (
+  email: string,
+  old_email?: string,
+) => {
   const token = uuidv4();
   const expires = new Date(new Date().getTime() + 3600 * 1000);
 
-  const existingToken = await getVerificationTokenByEmail(email);
+  const existingToken = await getVerificationTokenByEmail(old_email!);
 
   if (existingToken) {
-    await db.delete(isinkwa).where(eq(isinkwa.id, existingToken.id as string));
+    await db
+      .delete(verificationTokens)
+      .where(eq(verificationTokens.id, existingToken.id as string));
   }
   const verificationToken = await db
-    .insert(isinkwa)
+    .insert(verificationTokens)
     .values({ email, token, expires })
     .returning({
-      id: isinkwa.id,
-      email: isinkwa.email,
-      token: isinkwa.token,
-      expires: isinkwa.expires,
+      id: verificationTokens.id,
+      email: verificationTokens.email,
+      token: verificationTokens.token,
+      expires: verificationTokens.expires,
     });
 
   return verificationToken[0];

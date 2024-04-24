@@ -28,12 +28,17 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   }
 
   if (values.email && values.email !== user.email) {
-    const existingUser = await getUserByEmail(values.email);
+    const existingUser = dbUser;
+    // await getUserByEmail(values.email);
 
     if (existingUser && existingUser.id !== user.id) {
       return { error: "Email already in use" };
     }
-    const verificationToken = await generateVerificationToken(values.email);
+    const old_email = dbUser.email;
+    const verificationToken = await generateVerificationToken(
+      values.email,
+      old_email!,
+    );
     if (!verificationToken) {
       return { error: "Failed to generate verification token" };
     }
