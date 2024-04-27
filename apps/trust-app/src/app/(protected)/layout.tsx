@@ -4,7 +4,7 @@ interface ProtectedLayoutProps {
 
 const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
   return (
-    <div className="flex h-screen items-center justify-center bg-gradient-to-b from-primary to-secondary-foreground">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-primary to-secondary-foreground">
       {children}
     </div>
   );

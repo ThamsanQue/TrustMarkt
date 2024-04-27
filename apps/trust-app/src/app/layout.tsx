@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { Toaster } from "@/components/ui/sonner";
 import "@/styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 
@@ -26,6 +27,7 @@ export default async function RootLayout({
     <html lang="en">
       <SessionProvider session={session}>
         <body className={`font-sans ${inter.variable}`}>{children}</body>
+        <Toaster />
       </SessionProvider>
     </html>
   );

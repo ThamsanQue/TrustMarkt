@@ -21,6 +21,12 @@ import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -79,17 +85,38 @@ export const LoginForm = () => {
                 control={form.control}
                 name="code"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Two Factor Code</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isPending}
-                        {...field}
-                        placeholder="12345"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                  <div className="flex justify-center">
+                    <FormItem>
+                      <div className="flex justify-center">
+                        <FormLabel className="mb-4 text-primary">
+                          Two Factor Code
+                        </FormLabel>
+                      </div>
+                      <FormControl>
+                        <InputOTP
+                          maxLength={6}
+                          {...field}
+                          disabled={isPending}
+                          className="items-center justify-center"
+                        >
+                          <InputOTPGroup>
+                            <InputOTPGroup>
+                              <InputOTPSlot index={0} />
+                              <InputOTPSlot index={1} />
+                              <InputOTPSlot index={2} />
+                            </InputOTPGroup>
+                            <InputOTPSeparator />
+                            <InputOTPGroup>
+                              <InputOTPSlot index={3} />
+                              <InputOTPSlot index={4} />
+                              <InputOTPSlot index={5} />
+                            </InputOTPGroup>
+                          </InputOTPGroup>
+                        </InputOTP>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  </div>
                 )}
               />
             )}
