@@ -109,7 +109,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   },
   adapter: DrizzleAdapter(db, createTable) as Adapter,
   session: { strategy: "jwt" },
-  debug: false,
+  debug: true,
   ...authConfig,
 });
 
