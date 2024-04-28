@@ -1,16 +1,10 @@
 import { unstable_noStore as noStore } from "next/cache";
-// import Link from "next/link";
-
-import { CreatePost } from "@/app/_components/create-post";
-import { getServerAuthSession } from "@/server/auth";
-import { api } from "@/trpc/server";
 import Head from "next/head";
-import Upload from "@/components/upload/upload";
+import { LoginButton } from "@/components/auth/login-btn";
+import { Button } from "@/components/ui/button";
 
 export default async function Home() {
   noStore();
-  const hello = await api.post.hello.query({ text: "from tRPC" });
-
   return (
     <>
       <Head>
@@ -53,34 +47,13 @@ export default async function Home() {
               </div>
             </div>
           </div>
-          <Upload />
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">
-              {hello ? hello.greeting : "Loading tRPC query..."}
-            </p>
-            <CrudShowcase />
-          </div>
+          <LoginButton>
+            <Button variant="secondary" size="lg">
+              Sign In
+            </Button>
+          </LoginButton>
         </div>
       </main>
     </>
-  );
-}
-
-async function CrudShowcase() {
-  const session = await getServerAuthSession();
-  if (!session?.user) return null;
-
-  const latestPost = await api.post.getLatest.query();
-
-  return (
-    <div className="w-full max-w-xs">
-      {latestPost ? (
-        <p className="truncate">Your most recent post: {latestPost.name}</p>
-      ) : (
-        <p>You have no posts yet.</p>
-      )}
-
-      <CreatePost />
-    </div>
   );
 }
