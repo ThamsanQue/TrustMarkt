@@ -2,7 +2,7 @@
 
 import { LoginSchema } from "@/schemas";
 import { z } from "zod";
-import AuthError from "next-auth";
+import { AuthError } from "next-auth";
 import {
   generateTwoFactorToken,
   generateVerificationToken,
