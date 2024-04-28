@@ -1,6 +1,8 @@
 {
   "extends": "@trustmarkt/typescript-config/nextjs.json",
   "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
     "plugins": [
       {
         "name": "next"
