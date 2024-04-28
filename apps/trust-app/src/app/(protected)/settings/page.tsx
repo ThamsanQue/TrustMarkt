@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { z } from "zod";
 import { SettingsSchema } from "@/schemas";
 import { useForm } from "react-hook-form";
@@ -77,21 +77,34 @@ const Settings = () => {
             className="grid gap-4 text-sm  text-white/75"
             x-chunk="dashboard-04-chunk-0"
           >
-            <h2 className="rounded-md bg-white/10 p-2 font-semibold text-white">
+            <h2 className="rounded-md bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] p-2 font-semibold text-white">
               Profile
             </h2>
-            <h2 className="rounded-md p-2 hover:bg-white/20">Security</h2>
-            <h2 className=" rounded-md p-2 hover:bg-white/20">Integrations</h2>
-            <h2 className=" rounded-md p-2 hover:bg-white/20">Support</h2>
-            <h2 className=" rounded-md p-2 hover:bg-white/20">Organizations</h2>
-            <h2 onClick={onClick} className=" rounded-md p-2 hover:bg-white/20">
+            <h2 className="rounded-md  bg-[length:200%_100%] p-2 hover:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)]">
+              Address
+            </h2>
+            <h2 className=" rounded-md  bg-[length:200%_100%] p-2 hover:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)]">
+              Product Listings
+            </h2>
+            <h2 className=" rounded-md  bg-[length:200%_100%] p-2 hover:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)]">
+              Verification Status
+            </h2>
+            <h2
+              onClick={onClick}
+              className=" rounded-md bg-[length:200%_100%] p-2 hover:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] "
+            >
               Sign Out
             </h2>
           </nav>
           <div className="grid gap-6">
-            <Card x-chunk="dashboard-04-chunk-1">
+            <Card
+              x-chunk="dashboard-04-chunk-1"
+              className="border border-gray-800 bg-gradient-to-b from-gray-950 to-black shadow-md"
+            >
               <CardHeader>
-                <CardTitle>Personal Information</CardTitle>
+                <CardTitle className="text-white/70">
+                  Personal Information
+                </CardTitle>
                 <CardDescription>
                   Update your personal details here.
                 </CardDescription>
@@ -142,7 +155,7 @@ const Settings = () => {
                   </form>
                 </Form>
               </CardContent>
-              <CardFooter className="border-t px-6 py-4">
+              <CardFooter className="border-t border-gray-800 px-6 py-4">
                 <Button
                   disabled={isPending}
                   type="submit"
@@ -152,9 +165,14 @@ const Settings = () => {
                 </Button>
               </CardFooter>
             </Card>
-            <Card x-chunk="dashboard-04-chunk-2">
+            <Card
+              x-chunk="dashboard-04-chunk-2"
+              className="border border-gray-800 bg-gradient-to-b from-gray-950 to-black shadow-md"
+            >
               <CardHeader>
-                <CardTitle>Password Credentials</CardTitle>
+                <CardTitle className="text-white/70">
+                  Password Credentials
+                </CardTitle>
                 <CardDescription>
                   Enter your current password to change your password.
                 </CardDescription>
@@ -208,9 +226,11 @@ const Settings = () => {
                           control={form.control}
                           name="isTwoFactorEnabled"
                           render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                            <FormItem className="flex flex-row items-center justify-between rounded-lg border border-gray-800 p-3 shadow-sm">
                               <div className="space-y-0.5">
-                                <FormLabel>Two Factor Authentication</FormLabel>
+                                <FormLabel className="text-white/80">
+                                  Two Factor Authentication
+                                </FormLabel>
                                 <FormDescription>
                                   Enable/ Disable two factor Authentication for
                                   your account .
@@ -231,7 +251,7 @@ const Settings = () => {
                   </form>
                 </Form>
               </CardContent>
-              <CardFooter className="border-t px-6 py-4">
+              <CardFooter className="border-t border-gray-800 px-6 py-4">
                 <Button disabled={isPending} type="submit" form="password-form">
                   Save
                 </Button>

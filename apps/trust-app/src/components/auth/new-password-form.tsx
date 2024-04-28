@@ -15,18 +15,15 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { FormError } from "../form-error";
-import { FormSuccess } from "../form-success";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { newPassword } from "@/actions/new-password";
 import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 export const NewPasswordForm = () => {
   const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
   const form = useForm<z.infer<typeof NewPasswordSchema>>({
     resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
@@ -35,15 +32,12 @@ export const NewPasswordForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
-    setError("");
-    setSuccess("");
-
     startTransition(() => {
       newPassword(values, token).then((res) => {
         if (res?.error) {
-          setError(res?.error);
+          toast.error(res?.error);
         } else {
-          setSuccess(res?.success);
+          toast.success(res?.success);
         }
       });
     });
@@ -77,8 +71,6 @@ export const NewPasswordForm = () => {
               )}
             />
           </div>
-          <FormError message={error} />
-          <FormSuccess message={success} />
           <Button type="submit" className="w-full" disabled={isPending}>
             Rest password
           </Button>

@@ -15,41 +15,58 @@ export default async function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className=" flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-primary to-secondary-foreground">
+      <main className=" flex min-h-screen flex-col items-center justify-center">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            Trust <span className="text-[hsl(210,100%,12%)]">Mark</span>t
-          </h1>
+          <div className="relative mx-auto flex max-w-2xl flex-col items-center">
+            <h2 className="text-center text-3xl font-bold text-gray-50 sm:text-6xl">
+              Safe & Trusted{" "}
+              <span className="animate-text-gradient inline-flex bg-gradient-to-r from-neutral-900 via-slate-500 to-neutral-500 bg-[200%_auto] bg-clip-text leading-tight text-transparent dark:from-neutral-100 dark:via-slate-400 dark:to-neutral-400">
+                Online Shopping
+              </span>
+            </h2>
+            <p className="mt-6 text-center text-lg leading-6 text-white/60">
+              Shop smarter online!{" "}
+              <span className="cursor-wait font-semibold text-accent">
+                TrustMarkt{" "}
+              </span>{" "}
+              verifies sellers and their items, working hard to keep scams at
+              bay. Stay safer while buying and selling online.{" "}
+            </p>
+          </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
-              <h3 className="text-2xl font-bold">
-                TrustMarkt: Securing Online Commerce Through Verified Seller
-                Identities.
+            <div className="flex max-w-xs flex-col gap-4 rounded-xl border border-gray-800 bg-gradient-to-b from-gray-950 to-black p-4 text-white">
+              <h3 className="text-center text-2xl font-bold">
+                Verified Sellers for Safer Transactions
               </h3>
-              <div className="text-lg">
-                TrustMarkt: Verifying sellers&apos; identities with advanced
-                facial recognition for secure online transactions. Rigorous
-                identity validation enhances customer confidence, safeguards
-                against fraud, creating a trusted environment for reliable
-                e-commerce.
+              <div className="text-center text-lg text-white/60">
+                TrustMarkt uses facial recognition to check that sellers are who
+                they say they are. This helps you shop with confidence, knowing
+                you're dealing with real people, not scammers. We're all about
+                making online buying safer and more reliable for you!
               </div>
             </div>
-            <div className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20">
-              <h3 className="text-2xl font-bold">
-                Essential Imperatives: Ensuring Security in Online Commerce
+            <div className="flex max-w-xs flex-col gap-4 rounded-xl border border-gray-800 bg-gradient-to-b from-gray-950 to-black p-4 text-white">
+              <h3 className="text-center text-2xl font-bold">
+                Safeguarding Every Step for Buyers and Sellers
               </h3>
-              <div className="text-lg">
-                Securing online commerce is crucial to protect user data,
-                prevent fraud, and build trust. Robust security measures
-                safeguard financial transactions, mitigate identity theft risks,
-                and enhance the overall reliability of digital marketplaces,
-                fostering sustained customer confidence and business reputation.
+              <div className="text-center text-lg text-white/60">
+                For buyers, TrustMarkt means confidence from browsing to buying.
+                Look for our{" "}
+                <span className="cursor-wait font-semibold text-accent">
+                  TrustMark
+                </span>{" "}
+                to shop securely. Sellers{" "}
+                <span className="cursor-wait font-semibold text-accent">
+                  Gain Credibility and Attract More Buyers
+                </span>{" "}
+                with our TrustMark on your profile. Our security measures ensure
+                smooth transactions, benefiting everyone involved
               </div>
             </div>
           </div>
           <LoginButton>
-            <Button variant="secondary" size="lg">
-              Sign In
+            <Button variant="cta" size="lg" className="mb-8 text-accent">
+              Get Verified Now
             </Button>
           </LoginButton>
         </div>
