@@ -1,7 +1,9 @@
 "use client";
 import { GitHubLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import logo from "@/assets/Logo.svg";
 
 export const Header = () => {
   const pathname = usePathname();
@@ -14,7 +16,8 @@ export const Header = () => {
       ) : null}
 
       <header className="container mx-auto flex max-w-5xl items-center justify-between px-4 py-8">
-        <Link href="/">
+        <Link href="/" className="flex items-center space-x-2">
+          <Image src={logo} alt="TrustMarkt Logo" className="h-10 w-10" />
           <div className="text-xl font-extrabold text-accent">TrustMarkt</div>
         </Link>
         <nav className="flex gap-6">
