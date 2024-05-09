@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { Header } from "@/components/navigation/main-nav";
 import { Toaster } from "@/components/ui/sonner";
 import "@/styles/globals.css";
 import { SessionProvider } from "next-auth/react";
@@ -26,7 +27,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <SessionProvider session={session}>
-        <body className={`font-sans ${inter.variable}`}>{children}</body>
+        <body className={`font-sans ${inter.variable}`}>
+          <Header />
+          {children}
+        </body>
         <Toaster />
       </SessionProvider>
     </html>

@@ -15,8 +15,6 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { FormError } from "../form-error";
-import { FormSuccess } from "../form-success";
 import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
@@ -27,6 +25,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { toast } from "sonner";
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -37,8 +36,6 @@ export const LoginForm = () => {
 
   const [isPending, startTransition] = useTransition();
   const [showTwoFactor, setShowTwoFactor] = useState(false);
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -48,25 +45,23 @@ export const LoginForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    setError("");
-    setSuccess("");
     startTransition(() => {
       login(values)
         .then((res) => {
           if (res?.error) {
             form.reset();
-            setError(res?.error);
+            toast.error(res?.error || urlError);
           }
 
           if (res?.success) {
             form.reset();
-            setSuccess(res?.success);
+            toast.success(res?.success);
           }
           if (res?.twoFactor) {
             setShowTwoFactor(true);
           }
         })
-        .catch(() => setError("Something went wrong"));
+        .catch((err) => toast("Something went wrong", err));
     });
   };
 
@@ -88,7 +83,7 @@ export const LoginForm = () => {
                   <div className="flex justify-center">
                     <FormItem>
                       <div className="flex justify-center">
-                        <FormLabel className="mb-4 text-primary">
+                        <FormLabel className="mb-4 text-accent">
                           Two Factor Code
                         </FormLabel>
                       </div>
@@ -156,7 +151,7 @@ export const LoginForm = () => {
                         />
                       </FormControl>
                       <Button
-                        className="px-0 font-normal"
+                        className="px-0 font-normal text-white/70"
                         size="sm"
                         variant="link"
                         asChild
@@ -170,8 +165,6 @@ export const LoginForm = () => {
               </>
             )}
           </div>
-          <FormError message={error || urlError} />
-          <FormSuccess message={success} />
           <Button type="submit" className="w-full" disabled={isPending}>
             {showTwoFactor ? "Confirm" : "Login"}
           </Button>

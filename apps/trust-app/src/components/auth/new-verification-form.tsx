@@ -5,12 +5,11 @@ import { BeatLoader } from "react-spinners";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { newVerfication } from "@/actions/new-verification";
-import { FormSuccess } from "@/components/form-success";
-import { FormError } from "@/components/form-error";
+import { toast } from "sonner";
 
 export const NewVerificationForm = () => {
-  const [error, setError] = useState<string | undefined>();
-  const [success, setSuccess] = useState<string | undefined>();
+  const [error, setError] = useState<boolean | undefined>();
+  const [success, setSuccess] = useState<boolean | undefined>();
 
   const searchParams = useSearchParams();
 
@@ -19,16 +18,20 @@ export const NewVerificationForm = () => {
   const onSubmit = useCallback(() => {
     if (success || error) return;
     if (!token) {
-      setError("Missing token");
+      setError(true);
+      toast.error("Missing token");
       return;
     }
     newVerfication(token)
       .then((data) => {
-        setSuccess(data.success);
-        setError(data.error);
+        setSuccess(data.success && data.success.length > 0 ? true : false);
+        setError(data.error && data.error.length > 0 ? true : false);
+        toast.success(data.success);
+        toast.error(data.error);
       })
-      .catch(() => {
-        setError("Something went wrong");
+      .catch((err) => {
+        setError(true);
+        toast.error("Something went wrong", err);
       });
   }, [token, success, error]);
   useEffect(() => {
@@ -40,10 +43,8 @@ export const NewVerificationForm = () => {
       backBtnLabel="Back to login"
       backButtonHref="/auth/login"
     >
-      <div className="flex items-center w-full  justify-center">
+      <div className="flex w-full items-center  justify-center">
         {!success && !error && <BeatLoader size={10} color="#000000" />}
-        <FormSuccess message={success} />
-        {!success && <FormError message={error} />}
       </div>
     </CardWrapper>
   );
