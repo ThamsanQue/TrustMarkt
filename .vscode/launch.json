@@ -1,7 +1,6 @@
 {
   "version": "0.2.0",
   "configurations": [
-    
     {
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
@@ -29,7 +28,7 @@
     },
     {
       "name": "Python: Flask",
-      "type": "debugpy",
+      "type": "python",
       "request": "launch",
       "module": "flask",
       "env": {

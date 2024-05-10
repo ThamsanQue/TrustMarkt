@@ -29,7 +29,7 @@ models = [
 
 @app.route("/")
 def home():
-    user = supabase.table("trustmarkt1_user").select("*").execute()
+    user = supabase.table("users").select("*").execute()
     
     # response = supabase.table('countries').select("*").execute()
 
@@ -37,39 +37,17 @@ def home():
     assert len(user.data) > 0
     return  jsonify(user.data)
 
-@app.route('/verify')
-def face_verification(img1_url, img2_url ):
-    # Retrieve images from Supabase database
-    # Example: Fetching images from a Supabase table named 'images'
-    result = supabase.select('images').execute()
-    img_paths = [row['image_path'] for row in result['data']]
-
-    # Perform face verification
-    result = DeepFace.verify(img1_path=img_url, img2_path=img2_url, model_name=models[0])
-
-    return jsonify(result)
-
-@app.route('/recognize')
-def face_recognition(img_url):
-    # Retrieve images from Supabase database
-    result = supabase.select('images').execute()
-    # Perform face recognition
-    dfs = DeepFace.find(img_path=img_url, 
-                        db_path=json.dumps(result['data']), 
-                        model_name=models[1])
-
-    return jsonify(dfs)
-
-@app.route('/embeddings')
-def face_embeddings(img_url):
-    # Retrieve images from Supabase database
-    # Example: Fetching images from a Supabase table named 'images'
-    result = supabase.select('images').execute()
-
-    # Calculate embeddings
-    embedding_objs = DeepFace.represent(img_path=img_url, model_name=models[2])
-
-    return jsonify(embedding_objs)
+@app.route('/faces')
+def face_recognition():
+    imageDb = supabase.table("faces").select("*").execute()
+    assert len(imageDb.data) > 0
+    
+    recognizer = DeepFace.stream(db_path="${imageDb.data}")
+    
+    return recognizer
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
+    
+    # "https://res.cloudinary.com/ddsnqfovk/image/upload/v1715284072/faces/WhatsApp_Image_2024-05-09_at_21.44.32_pj4drg.jpg", "https://res.cloudinary.com/ddsnqfovk/image/upload/v1715284071/faces/WhatsApp_Image_2024-05-09_at_21.44.30_1_a9hioz.jpg","https://res.cloudinary.com/ddsnqfovk/image/upload/v1715284071/faces/WhatsApp_Image_2024-05-09_at_21.44.31_cmlrpx.jpg", "https://res.cloudinary.com/ddsnqfovk/image/upload/v1715284071/faces/WhatsApp_Image_2024-05-09_at_21.44.31_1_zhfhjk.jpg", "https://res.cloudinary.com/ddsnqfovk/image/upload/v1715284071/faces/WhatsApp_Image_2024-05-09_at_21.44.30_vg9piz.jpg","https://res.cloudinary.com/ddsnqfovk/image/upload/v1715284070/faces/WhatsApp_Image_2024-05-09_at_21.43.04_x6mtls.jpg"
