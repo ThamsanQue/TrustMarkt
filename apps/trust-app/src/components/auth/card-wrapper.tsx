@@ -21,8 +21,11 @@ export const CardWrapper = ({
   showSocial,
 }: CardWrapperProps) => {
   return (
-    <Card className="w-[400px] shadow-md">
-      <CardHeader>
+    <Card className=" relative w-[400px] border border-gray-800 bg-gradient-to-b from-gray-950 to-black shadow-md">
+      <div className="absolute left-1/2 top-0 flex w-full -translate-x-1/2 transform justify-center">
+        <div className="animate-border-width h-[1px] rounded-full bg-gradient-to-r from-[rgba(17,17,17,0)] via-white to-[rgba(17,17,17,0)] transition-all duration-1000" />
+      </div>
+      <CardHeader className="text-white/70">
         <Header label={headerLabel} />
       </CardHeader>
       <CardContent>{children}</CardContent>
