@@ -41,8 +41,20 @@ def home():
 def face_recognition():
     imageDb = supabase.table("faces").select("*").execute()
     assert len(imageDb.data) > 0
+    models = [
+      "VGG-Face",
+      "Facenet",
+      "Facenet512",
+      "OpenFace",
+      "DeepFace",
+      "DeepID",
+      "ArcFace",
+      "Dlib",
+      "SFace",
+    ]
     
-    recognizer = DeepFace.stream(db_path="${imageDb.data}")
+    recognizer = DeepFace.stream(db_path="/home/notSteve/dev/turbo/TrustMarkt/apps/deep-trust-api/api/faces", model_name=models[4], detector_backend="mtcnn")
+    # recognizer = DeepFace.stream(db_path="${imageDb.data}", model_name="Facenet512", detector_backend="mtcnn")
     
     return recognizer
 
