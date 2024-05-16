@@ -1,7 +1,8 @@
 import { unstable_noStore as noStore } from "next/cache";
 import Head from "next/head";
-import { LoginButton } from "@/components/auth/login-btn";
+// import { LoginButton } from "@/components/auth/login-btn";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function Home() {
   noStore();
@@ -64,11 +65,13 @@ export default async function Home() {
               </div>
             </div>
           </div>
-          <LoginButton>
+          {/* <LoginButton> */}
+          <Link href={"/auth/login"}>
             <Button variant="cta" size="lg" className="mb-8 text-accent">
               Get Verified Now
             </Button>
-          </LoginButton>
+          </Link>
+          {/* </LoginButton> */}
         </div>
       </main>
     </>
