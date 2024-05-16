@@ -47,7 +47,6 @@ export const RegisterForm = () => {
       headerLabel="Create an Account"
       backBtnLabel="Already have an account?"
       backButtonHref="/auth/login"
-      showSocial
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -62,7 +61,7 @@ export const RegisterForm = () => {
                     <Input
                       disabled={isPending}
                       {...field}
-                      placeholder="ThamsanqaJ"
+                      placeholder="Jane Doe"
                     />
                   </FormControl>
                   <FormMessage />
@@ -80,7 +79,7 @@ export const RegisterForm = () => {
                     <Input
                       disabled={isPending}
                       {...field}
-                      placeholder="thamsanqa.dev@gmail.com"
+                      placeholder="example@gmail.com"
                       type="email"
                     />
                   </FormControl>
