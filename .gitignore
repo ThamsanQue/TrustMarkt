@@ -27,7 +27,7 @@ coverage
 out/
 build
 dist
-
+pnpm-lock.yaml
 
 # Debug
 npm-debug.log*
