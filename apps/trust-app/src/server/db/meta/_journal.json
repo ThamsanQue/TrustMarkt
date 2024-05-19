@@ -8,6 +8,13 @@
       "when": 1713038622582,
       "tag": "0000_fine_sugar_man",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1715959157185,
+      "tag": "0001_bright_zuras",
+      "breakpoints": true
     }
   ]
 }

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "pnpm with-env next build",
-    "db:migrate": "pnpm with-env drizzle-kit generate:pg",
+    "db:migrate": "pnpm with-env drizzle-kit migrate",
     "db:push": "pnpm with-env drizzle-kit push:pg",
     "db:seed": "pnpm with-env drizzle-kit seed:pg",
     "db:generate": "pnpm with-env drizzle-kit generate:pg",
