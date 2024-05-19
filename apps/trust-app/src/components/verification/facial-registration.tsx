@@ -78,9 +78,11 @@ export const FacialRegistration = () => {
           videoConstraints={videoConstraints}
           className="mx-auto rounded-lg"
         />
-        <h3 className="absolute left-1/2 top-0 mt-2 -translate-x-1/2 rounded-md bg-white p-2 text-xs font-semibold text-accent md:mt-6 md:text-xl">
-          {instructionText}
-        </h3>
+        {instructionText && (
+          <h3 className="absolute left-1/2 top-0 mt-2 -translate-x-1/2 rounded-md bg-white p-2 text-xs font-semibold text-accent md:mt-6 md:text-xl">
+            {instructionText}
+          </h3>
+        )}
         <div className="absolute left-1/2 top-1/2 flex h-48 w-48 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center md:h-[500px] md:w-[500px]">
           <Scan
             className="absolute inset-0 h-full w-full text-accent"
@@ -96,7 +98,6 @@ export const FacialRegistration = () => {
         <Button onClick={registerFace} className="m-4">
           Start Registration
         </Button>
-        {/* <TextShine text={instructionText} /> */}
       </div>
       <StepperFormActions />
     </>
