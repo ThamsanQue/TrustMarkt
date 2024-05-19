@@ -1,65 +1,59 @@
-from dotenv import load_dotenv
-load_dotenv()
-
-from flask import Flask, jsonify
-from deepface import DeepFace
 import os
-from supabase import create_client, Client
-import json
+import shutil
+import requests
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from deepface import DeepFace
 
 
 app = Flask(__name__)
+CORS(app)
 
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_KEY")
-supabase: Client = create_client(url, key)
+@app.route('/')
+def hello():
+  return 'Welcome to Deep Trust API!, Please use /recognize route to perform facial recognition'
 
-models = [
-  "VGG-Face", 
-  "Facenet", 
-  "Facenet512", 
-  "OpenFace", 
-  "DeepFace", 
-  "DeepID", 
-  "ArcFace", 
-  "Dlib", 
-  "SFace",
-  "GhostFaceNet",
-]
-
-@app.route("/")
-def home():
-    user = supabase.table("users").select("*").execute()
+# Route for facial recognition
+@app.route('/recognize', methods=['POST'])
+def recognize():
+    # Parse JSON payload
+    data = request.json
+    name = data.get('name')
+    image_url = data.get('imageUrl')
     
-    # response = supabase.table('countries').select("*").execute()
-
-    # Assert we pulled real data.
-    assert len(user.data) > 0
-    return  jsonify(user.data)
-
-@app.route('/faces')
-def face_recognition():
-    imageDb = supabase.table("faces").select("*").execute()
-    assert len(imageDb.data) > 0
-    models = [
-      "VGG-Face",
-      "Facenet",
-      "Facenet512",
-      "OpenFace",
-      "DeepFace",
-      "DeepID",
-      "ArcFace",
-      "Dlib",
-      "SFace",
-    ]
+    if not name or not image_url:
+        return jsonify({'error': 'Name or imageUrl not provided in the payload'}), 400
     
-    recognizer = DeepFace.stream(db_path="/home/notSteve/dev/turbo/TrustMarkt/apps/deep-trust-api/api/faces", model_name=models[4], detector_backend="mtcnn")
-    # recognizer = DeepFace.stream(db_path="${imageDb.data}", model_name="Facenet512", detector_backend="mtcnn")
+    # Create a folder using the provided name
+    folder_path = f'/tmp/{name}'
+    os.makedirs(folder_path, exist_ok=True)
     
-    return recognizer
+    # Download the image
+    image_path = os.path.join(folder_path, 'uploaded_image.jpg')
+    try:
+        response = requests.get(image_url, stream=True)
+        with open(image_path, 'wb') as f:
+            shutil.copyfileobj(response.raw, f)
+    except Exception as e:
+        return jsonify({'error': f'Failed to download image: {str(e)}'}), 500
+    
+    # Check if the image was saved successfully
+    if not os.path.exists(image_path):
+        return jsonify({'error': 'Image was not saved successfully'}), 500
+    
+    # Perform facial recognition with enforce_detection set to False
+    try:
+        result = DeepFace.analyze(image_path, enforce_detection=False)
+        recognized_faces = result[0]  # Access the first element of the result list
+    except Exception as e:
+        return jsonify({'error': f'Error during facial recognition: {str(e)}'}), 500
+    
+    return jsonify({
+        'message': 'Face recognition successful',
+        'status': 'success',
+        'image_path': image_path,
+        'recognized_faces': recognized_faces
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
-    
-    # "https://res.cloudinary.com/ddsnqfovk/image/upload/v1715284072/faces/WhatsApp_Image_2024-05-09_at_21.44.32_pj4drg.jpg", "https://res.cloudinary.com/ddsnqfovk/image/upload/v1715284071/faces/WhatsApp_Image_2024-05-09_at_21.44.30_1_a9hioz.jpg","https://res.cloudinary.com/ddsnqfovk/image/upload/v1715284071/faces/WhatsApp_Image_2024-05-09_at_21.44.31_cmlrpx.jpg", "https://res.cloudinary.com/ddsnqfovk/image/upload/v1715284071/faces/WhatsApp_Image_2024-05-09_at_21.44.31_1_zhfhjk.jpg", "https://res.cloudinary.com/ddsnqfovk/image/upload/v1715284071/faces/WhatsApp_Image_2024-05-09_at_21.44.30_vg9piz.jpg","https://res.cloudinary.com/ddsnqfovk/image/upload/v1715284070/faces/WhatsApp_Image_2024-05-09_at_21.43.04_x6mtls.jpg"
