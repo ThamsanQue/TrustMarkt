@@ -70,7 +70,6 @@ export const LoginForm = () => {
       headerLabel="Welcome Back"
       backBtnLabel="Don't have an account?"
       backButtonHref="/auth/register"
-      showSocial
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -100,7 +99,7 @@ export const LoginForm = () => {
                               <InputOTPSlot index={1} />
                               <InputOTPSlot index={2} />
                             </InputOTPGroup>
-                            <InputOTPSeparator />
+                            <InputOTPSeparator className="text-accent" />
                             <InputOTPGroup>
                               <InputOTPSlot index={3} />
                               <InputOTPSlot index={4} />
@@ -127,7 +126,7 @@ export const LoginForm = () => {
                         <Input
                           disabled={isPending}
                           {...field}
-                          placeholder="Thamsanqa.dev@gmail.com"
+                          placeholder="example@gmail.com"
                           type="email"
                         />
                       </FormControl>

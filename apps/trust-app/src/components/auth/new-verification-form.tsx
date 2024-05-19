@@ -44,7 +44,7 @@ export const NewVerificationForm = () => {
       backButtonHref="/auth/login"
     >
       <div className="flex w-full items-center  justify-center">
-        {!success && !error && <BeatLoader size={10} color="#000000" />}
+        {!success && !error && <BeatLoader size={10} color="#39cccc" />}
       </div>
     </CardWrapper>
   );
