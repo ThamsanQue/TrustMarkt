@@ -4,7 +4,7 @@ import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from deepface import DeepFace
-
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -19,7 +19,8 @@ def recognize():
     # Parse JSON payload
     data = request.json
     name = data.get('name')
-    image_url = data.get('imageUrl')
+    images = json.loads(data.get('imageUrl'))
+    image_url = images[0]
     
     if not name or not image_url:
         return jsonify({'error': 'Name or imageUrl not provided in the payload'}), 400
@@ -49,7 +50,7 @@ def recognize():
         return jsonify({'error': f'Error during facial recognition: {str(e)}'}), 500
     
     return jsonify({
-        'message': 'Face recognition successful',
+        'message': 'Face registration successful',
         'status': 'success',
         'image_path': image_path,
         'recognized_faces': recognized_faces

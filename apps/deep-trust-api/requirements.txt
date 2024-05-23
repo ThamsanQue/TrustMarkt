@@ -9,6 +9,7 @@ deepface==0.0.91
 filelock==3.14.0
 fire==0.6.0
 Flask==3.0.3
+Flask-Cors==4.0.1
 flatbuffers==24.3.25
 gast==0.5.4
 gdown==5.2.0

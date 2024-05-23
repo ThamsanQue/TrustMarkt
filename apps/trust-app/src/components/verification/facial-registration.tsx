@@ -1,22 +1,25 @@
-import { useCallback, useRef, useState } from "react";
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useStepper } from "../ui/stepper";
 import { useCurrentUser } from "@/hooks/use-current-user";
-// import { z } from "zod";
-// import { toast } from "sonner";
 import { addFaceId } from "@/actions/profile-verification";
 import axios from "axios";
 import Webcam from "react-webcam";
 import { Scan } from "lucide-react";
 import { Button } from "../ui/button";
-import { StepperFormActions } from "./stepperForm";
 import { getUserByIdAction } from "@/actions/utils";
 import { countdownTimer } from "@/lib/utils";
+import { toast } from "sonner";
+import { Progress } from "../ui/progress";
 
 export const FacialRegistration = () => {
   const { nextStep } = useStepper();
   const [instructionText, setInstructionText] = useState("Please face forward");
+  const [loading, setLoading] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const user = useCurrentUser();
+  const [progress, setProgress] = useState(0);
 
   const videoConstraints = {
     width: 720,
@@ -41,6 +44,9 @@ export const FacialRegistration = () => {
     setInstructionText("");
 
     try {
+      setLoading(true);
+      setProgress(0);
+
       const responses = await Promise.all(
         imageSrcs.map((imageSrc) => uploadImageToCloudinary(imageSrc)),
       );
@@ -50,9 +56,20 @@ export const FacialRegistration = () => {
       const userDetails = await getUserByIdAction(user?.id as string);
       const facialRecognitionPayload = {
         name: userDetails?.name,
-        faceIds: faceIds[0]?.faceId,
+        imageUrl: faceIds[0]?.faceId,
       };
       console.log("Face IDs added successfully: ", facialRecognitionPayload);
+      //Send facial recognition payload to backend
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_DEEPTRUST_URL ||
+          "http://localhost:5000/recognize",
+        facialRecognitionPayload,
+      );
+      setProgress(100);
+
+      toast.success(response.data.message);
+      console.log("Response Progress: ", progress);
+      nextStep();
     } catch (error) {
       console.error("Error uploading images: ", error);
     }
@@ -95,11 +112,14 @@ export const FacialRegistration = () => {
       </div>
 
       <div className="m-4 flex flex-col items-center justify-center ">
-        <Button onClick={registerFace} className="m-4">
-          Start Registration
-        </Button>
+        {loading ? (
+          <Progress value={progress} className="w-[80%]" />
+        ) : (
+          <Button onClick={registerFace} className="m-4" disabled={loading}>
+            Start Registration
+          </Button>
+        )}
       </div>
-      <StepperFormActions />
     </>
   );
 };
