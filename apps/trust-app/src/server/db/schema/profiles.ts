@@ -13,7 +13,7 @@ export const profiles = createTable("profile", {
   faceId: json("faceId"),
   address: text("address"),
   listings: json("listings"),
-  status: varchar("status"),
+  status: varchar("status").notNull().default("PENDING"),
   verificationVideo: text("verificationVideo"),
   ratings: integer("ratings").notNull().default(0),
 });

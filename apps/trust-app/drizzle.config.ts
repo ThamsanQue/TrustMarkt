@@ -4,9 +4,9 @@ import { env } from "@/env";
 
 export default {
   schema: "./src/server/db/schema",
-  driver: "pg",
+  dialect: "postgresql",
   dbCredentials: {
-    connectionString: env.DATABASE_URL,
+    url: env.DATABASE_URL,
   },
   out: "./src/server/db",
   tablesFilter: ["trustmarkt1_*"],

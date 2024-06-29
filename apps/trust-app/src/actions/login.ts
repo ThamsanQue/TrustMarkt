@@ -17,6 +17,7 @@ import { signIn } from "@/auth";
 import { getUserByEmail } from "@/data/user";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+import { profiles } from "@/server/db/schema/profiles";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
@@ -104,10 +105,18 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
 
   try {
+    const status = await db
+      .select({ status: profiles.status })
+      .from(profiles)
+      .where(eq(profiles.userId, existingUser.id as string))
+      .limit(1);
+
+    const redirect =
+      status[0]?.status === "Verified" ? "/settings" : DEFAULT_LOGIN_REDIRECT;
     await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: redirect,
     });
   } catch (error) {
     if (error instanceof AuthError) {

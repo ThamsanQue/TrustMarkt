@@ -1,25 +1,25 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useStepper } from "../ui/stepper";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { addFaceId } from "@/actions/profile-verification";
 import axios from "axios";
 import Webcam from "react-webcam";
-import { Scan } from "lucide-react";
+import { Loader2, Scan } from "lucide-react";
 import { Button } from "../ui/button";
 import { getUserByIdAction } from "@/actions/utils";
 import { countdownTimer } from "@/lib/utils";
 import { toast } from "sonner";
-import { Progress } from "../ui/progress";
 
 export const FacialRegistration = () => {
   const { nextStep } = useStepper();
+
   const [instructionText, setInstructionText] = useState("Please face forward");
   const [loading, setLoading] = useState(false);
   const [countdown, setCountdown] = useState(0);
+
   const user = useCurrentUser();
-  const [progress, setProgress] = useState(0);
 
   const videoConstraints = {
     width: 720,
@@ -45,12 +45,10 @@ export const FacialRegistration = () => {
 
     try {
       setLoading(true);
-      setProgress(0);
 
       const responses = await Promise.all(
         imageSrcs.map((imageSrc) => uploadImageToCloudinary(imageSrc)),
       );
-      console.log("Images uploaded successfully: ", responses);
       const urls = responses.map((response) => response.data.url);
       const faceIds = await addFaceId(user?.id as string, urls);
       const userDetails = await getUserByIdAction(user?.id as string);
@@ -58,19 +56,20 @@ export const FacialRegistration = () => {
         name: userDetails?.name,
         imageUrl: faceIds[0]?.faceId,
       };
-      console.log("Face IDs added successfully: ", facialRecognitionPayload);
-      //Send facial recognition payload to backend
+
       const response = await axios.post(
-        process.env.NEXT_PUBLIC_DEEPTRUST_URL ||
-          "http://localhost:5000/recognize",
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:5000/recognize"
+          : process.env.NEXT_PUBLIC_DEEPTRUST_URL!,
         facialRecognitionPayload,
       );
-      setProgress(100);
 
       toast.success(response.data.message);
-      console.log("Response Progress: ", progress);
+      setLoading(false);
       nextStep();
     } catch (error) {
+      setLoading(false);
+      toast.error("Failed to register face");
       console.error("Error uploading images: ", error);
     }
   }, [webcamRef]);
@@ -113,7 +112,7 @@ export const FacialRegistration = () => {
 
       <div className="m-4 flex flex-col items-center justify-center ">
         {loading ? (
-          <Progress value={progress} className="w-[80%]" />
+          <Loader2 className="mx-auto mt-2 w-40 animate-spin text-accent" />
         ) : (
           <Button onClick={registerFace} className="m-4" disabled={loading}>
             Start Registration

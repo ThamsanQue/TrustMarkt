@@ -1,13 +1,11 @@
 "use client";
 
-import StepperDemo from "@/components/verification/stepperDemo";
-import StepperForm from "@/components/verification/stepperForm";
+import VerificationStepper from "@/components/verification/verificationStepper";
 
 const Verification = () => {
   return (
     <div className="container h-full lg:w-1/2">
-      {/* <StepperDemo /> */}
-      <StepperForm />
+      <VerificationStepper />
     </div>
   );
 };

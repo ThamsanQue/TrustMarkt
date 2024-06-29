@@ -1,27 +1,13 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
 import { Step, Stepper, useStepper } from "@/components/ui/stepper";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { ScanFace, Home, Tags, Video, Scan } from "lucide-react";
+import { ScanFace, Home, Tags, Video, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-// import TextShine from "../textShine";
 import { FacialRegistration } from "./facial-registration";
-// import { getUserById } from "@/data/user";
+import { AddressVerification } from "./address-verification";
+import { ListingsRegistration } from "./listings-registration";
+import { VideoVerification } from "./video-verification";
 
 const steps = [
   { label: "Facial Registration", icon: ScanFace },
@@ -30,7 +16,7 @@ const steps = [
   { label: "Video Verification", icon: Video },
 ];
 
-export default function StepperForm() {
+export default function VerificationStepper() {
   return (
     <div className="flex w-full flex-col gap-4">
       <Stepper
@@ -53,18 +39,37 @@ export default function StepperForm() {
         }}
       >
         {steps.map((stepProps, index) => {
-          if (index === 0) {
-            return (
-              <Step key={stepProps.label} {...stepProps}>
-                <FacialRegistration />
-              </Step>
-            );
+          switch (index) {
+            case 0:
+              return (
+                <Step key={stepProps.label} {...stepProps}>
+                  <FacialRegistration />
+                </Step>
+              );
+            case 1:
+              return (
+                <Step key={stepProps.label} {...stepProps}>
+                  <AddressVerification />
+                </Step>
+              );
+            case 2:
+              return (
+                <Step key={stepProps.label} {...stepProps}>
+                  <ListingsRegistration />
+                </Step>
+              );
+
+            case 3:
+              return (
+                <Step key={stepProps.label} {...stepProps}>
+                  <VideoVerification />
+                </Step>
+              );
+              break;
+            default:
+              // Add your default case here
+              break;
           }
-          return (
-            <Step key={stepProps.label} {...stepProps}>
-              <SecondStepForm />
-            </Step>
-          );
         })}
         <MyStepperFooter />
       </Stepper>
@@ -72,51 +77,7 @@ export default function StepperForm() {
   );
 }
 
-const SecondFormSchema = z.object({
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
-  }),
-});
-
-function SecondStepForm() {
-  const { nextStep } = useStepper();
-
-  const form = useForm<z.infer<typeof SecondFormSchema>>({
-    resolver: zodResolver(SecondFormSchema),
-    defaultValues: {
-      password: "",
-    },
-  });
-
-  function onSubmit(_data: z.infer<typeof SecondFormSchema>) {
-    nextStep();
-    toast("Second step submitted!");
-  }
-
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input type="password" {...field} />
-              </FormControl>
-              <FormDescription>This is your private password.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <StepperFormActions />
-      </form>
-    </Form>
-  );
-}
-
-export function StepperFormActions() {
+export function StepperFormActions({ isLoading }: { isLoading: boolean }) {
   const {
     prevStep,
     resetSteps,
@@ -142,8 +103,9 @@ export function StepperFormActions() {
           >
             Prev
           </Button>
-          <Button size="sm">
+          <Button size="sm" className="flex items-center ">
             {isLastStep ? "Finish" : isOptionalStep ? "Skip" : "Next"}
+            {isLoading && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
           </Button>
         </>
       )}

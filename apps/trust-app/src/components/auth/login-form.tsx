@@ -121,7 +121,9 @@ export const LoginForm = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel className="text-muted-foreground">
+                        Email
+                      </FormLabel>
                       <FormControl>
                         <Input
                           disabled={isPending}
@@ -140,7 +142,9 @@ export const LoginForm = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel className="text-muted-foreground">
+                        Password
+                      </FormLabel>
                       <FormControl>
                         <Input
                           disabled={isPending}
