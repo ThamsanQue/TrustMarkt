@@ -26,6 +26,8 @@
   "globalEnv": [
     "DATABASE_URL",
     "DISCORD_CLIENT_ID",
-    "DISCORD_CLIENT_SECRET"]
+    "DISCORD_CLIENT_SECRET",
+    "NEXT_PUBLIC_DEEPTRUST_URL"
+  ]
 
 }

@@ -7,6 +7,8 @@ import * as twoFactorConfirmations from "./two-factor-confirmations";
 import * as accountsRelations from "./accounts-relations";
 import * as usersRelations from "./users-relations";
 import * as twoFactorConfirmationsRelations from "./two-factor-confirmations-relations";
+import { profiles } from "./profiles";
+import { profilesRelations } from "./profiles-relations";
 
 export const schema = {
   ...accounts,
@@ -18,4 +20,6 @@ export const schema = {
   ...accountsRelations,
   ...usersRelations,
   ...twoFactorConfirmationsRelations,
+  ...profiles,
+  ...profilesRelations,
 };
