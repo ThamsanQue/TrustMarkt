@@ -59,7 +59,7 @@ export const FacialRegistration = () => {
 
       const response = await axios.post(
         process.env.NODE_ENV === "development"
-          ? "http://localhost:5000/recognize"
+          ? "http://localhost:5000/register"
           : process.env.NEXT_PUBLIC_DEEPTRUST_URL!,
         facialRecognitionPayload,
       );

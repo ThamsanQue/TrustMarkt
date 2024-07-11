@@ -1,5 +1,10 @@
 {
+  "name": "@trustmarkt/deeptrust",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "FLASK_DEBUG=1 pip3 install -r requirements.txt && python3 -m flask --app api/index run -p 5000 --reload"
+  },
   "engines": {
-    "node": "18.x"
+    "node": ">=18.x"
   }
 }
