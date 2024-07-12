@@ -25,6 +25,18 @@
         "action": "debugWithChrome"
       },
       "cwd": "${workspaceFolder}/apps/trust-app"
+    },
+    {
+      "name": "Python: Flask",
+      "type": "python",
+      "request": "launch",
+      "module": "flask",
+      "env": {
+        "FLASK_APP": "${workspaceFolder}/apps/deep-trust-api/api/index.py",
+        "FLASK_ENV": "development"
+      },
+      "args": ["run", "--no-debugger", "--no-reload"],
+      "jinja": true
     }
   ]
 }

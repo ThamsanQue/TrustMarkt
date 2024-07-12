@@ -1,264 +1,55 @@
 "use client";
 
-import { settings } from "@/actions/settings";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useTransition } from "react";
-import { z } from "zod";
-import { SettingsSchema } from "@/schemas";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useSession } from "next-auth/react";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { Switch } from "@/components/ui/switch";
 import { logout } from "@/actions/logout";
-import { toast } from "sonner";
+import { Address } from "@/components/settings/address";
+import { Listings } from "@/components/settings/listings";
+import { Profile } from "@/components/settings/profile";
+import { Status } from "@/components/settings/status";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Settings = () => {
-  const user = useCurrentUser();
-  const [isPending, startTransition] = useTransition();
-  const { update } = useSession();
-
-  const form = useForm<z.infer<typeof SettingsSchema>>({
-    resolver: zodResolver(SettingsSchema),
-    defaultValues: {
-      name: user?.name || undefined,
-      email: user?.email || undefined,
-      password: undefined,
-      isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
-    },
-  });
-
-  const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
-    startTransition(() => {
-      settings(values)
-        .then((res) => {
-          if (res.error) {
-            toast.error(res.error);
-          }
-
-          if (res.success) {
-            update();
-            toast.success(res.success);
-          }
-        })
-        .catch((err) => toast.error("Something went wrong", err));
-    });
-  };
-
   const onClick = () => {
     logout();
   };
   return (
-    <div className="flex h-full w-full flex-col">
-      <main className="flex  flex-1 flex-col gap-4  p-4 md:gap-8 md:p-10">
-        <div className="mx-auto grid w-full max-w-6xl gap-2">
-          <h1 className="text-3xl font-semibold text-white">Settings</h1>
-        </div>
-        <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
-          <nav
-            className="grid gap-4 text-sm  text-white/75"
-            x-chunk="dashboard-04-chunk-0"
-          >
-            <h2 className="rounded-md bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] p-2 font-semibold text-white">
-              Profile
-            </h2>
-            <h2 className="rounded-md  bg-[length:200%_100%] p-2 hover:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)]">
-              Address
-            </h2>
-            <h2 className=" rounded-md  bg-[length:200%_100%] p-2 hover:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)]">
-              Product Listings
-            </h2>
-            <h2 className=" rounded-md  bg-[length:200%_100%] p-2 hover:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)]">
-              Verification Status
-            </h2>
-            <h2
-              onClick={onClick}
-              className=" rounded-md bg-[length:200%_100%] p-2 hover:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] "
-            >
-              Sign Out
-            </h2>
-          </nav>
-          <div className="grid gap-6">
-            <Card
-              x-chunk="dashboard-04-chunk-1"
-              className="border border-gray-800 bg-gradient-to-b from-gray-950 to-black shadow-md"
-            >
-              <CardHeader>
-                <CardTitle className="text-white/70">
-                  Personal Information
-                </CardTitle>
-                <CardDescription>
-                  Update your personal details here.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Form {...form}>
-                  <form
-                    className="space-y-6"
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    id="personalInfo-form"
-                  >
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Name</FormLabel>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              placeholder="John Doe"
-                              disabled={isPending}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    {user?.isOAuth === false && (
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input
-                                {...field}
-                                placeholder="john.doe@example.com"
-                                disabled={isPending}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    )}
-                  </form>
-                </Form>
-              </CardContent>
-              <CardFooter className="border-t border-gray-800 px-6 py-4">
-                <Button
-                  disabled={isPending}
-                  type="submit"
-                  form="personalInfo-form"
-                >
-                  Save
-                </Button>
-              </CardFooter>
-            </Card>
-            <Card
-              x-chunk="dashboard-04-chunk-2"
-              className="border border-gray-800 bg-gradient-to-b from-gray-950 to-black shadow-md"
-            >
-              <CardHeader>
-                <CardTitle className="text-white/70">
-                  Password Credentials
-                </CardTitle>
-                <CardDescription>
-                  Enter your current password to change your password.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Form {...form}>
-                  <form
-                    className="flex flex-col gap-4"
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    id="password-form"
-                  >
-                    {user?.isOAuth === false && (
-                      <>
-                        <FormField
-                          control={form.control}
-                          name="password"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Current Password</FormLabel>
-                              <FormControl>
-                                <Input
-                                  {...field}
-                                  placeholder="******"
-                                  disabled={isPending}
-                                  type="password"
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="newPassword"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>New Password</FormLabel>
-                              <FormControl>
-                                <Input
-                                  {...field}
-                                  placeholder="******"
-                                  disabled={isPending}
-                                  type="password"
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="isTwoFactorEnabled"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border border-gray-800 p-3 shadow-sm">
-                              <div className="space-y-0.5">
-                                <FormLabel className="text-white/80">
-                                  Two Factor Authentication
-                                </FormLabel>
-                                <FormDescription>
-                                  Enable/ Disable two factor Authentication for
-                                  your account .
-                                </FormDescription>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                  disabled={isPending}
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                      </>
-                    )}
-                  </form>
-                </Form>
-              </CardContent>
-              <CardFooter className="border-t border-gray-800 px-6 py-4">
-                <Button disabled={isPending} type="submit" form="password-form">
-                  Save
-                </Button>
-              </CardFooter>
-            </Card>
+    <div className="flex h-full w-full flex-col items-center justify-center">
+      <main className="mx-auto flex max-w-[90%] flex-col gap-6 px-4 md:px-6 lg:px-8">
+        <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
+          <div className="w-full sm:w-auto">
+            <Tabs defaultValue="profile" className="w-full">
+              <TabsList className="mb-4 flex w-full justify-center border border-gray-800 bg-gradient-to-b from-gray-950 to-black shadow-md">
+                <TabsTrigger value="profile" className="w-full sm:w-auto">
+                  Profile
+                </TabsTrigger>
+                <TabsTrigger value="address" className="w-full sm:w-auto">
+                  Address
+                </TabsTrigger>
+                <TabsTrigger value="listings" className="w-full sm:w-auto">
+                  Listings
+                </TabsTrigger>
+                <TabsTrigger value="status" className="w-full sm:w-auto">
+                  Status
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="profile">
+                <Profile />
+              </TabsContent>
+              <TabsContent value="address">
+                <Address />
+              </TabsContent>
+              <TabsContent value="listings">
+                <Listings />
+              </TabsContent>
+              <TabsContent value="status">
+                <Status />
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
+        <Button className="mb-4 w-full sm:w-auto" onClick={onClick}>
+          Logout
+        </Button>
       </main>
     </div>
   );

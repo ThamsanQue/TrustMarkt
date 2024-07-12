@@ -33,4 +33,4 @@ export const apiAuthPrefix = "/api/auth";
  * The default route to redirect users to after login
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/settings";
+export const DEFAULT_LOGIN_REDIRECT = "/verification";
